@@ -10,7 +10,6 @@ services:
     ports:
       - "5435:5432"
     volumes:
-      # Crucial: PostgreSQL 18+ changes the base data volume path to /var/lib/postgresql
       - postgres_data:/var/lib/postgresql
 
 volumes:
