@@ -5,12 +5,11 @@ services:
     restart: always
     environment:
       POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: securepassword
+      POSTGRES_PASSWORD: sudopassword
       POSTGRES_DB: weheartsneakers
     ports:
       - "5435:5432"
     volumes:
-      # Crucial: PostgreSQL 18+ changes the base data volume path to /var/lib/postgresql
       - postgres_data:/var/lib/postgresql
 
 volumes:
