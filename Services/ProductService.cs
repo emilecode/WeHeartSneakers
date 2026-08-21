@@ -36,9 +36,14 @@ public class ProductService : IProductService
 		);
 	}
 
-	public async Task<List<ProductResponseDto>> GetAllAsync()
+	public async Task<List<ProductResponseDto>> GetAllAsync(string? search)
 	{
-		return await _context.Products.Select(p => new ProductResponseDto(
+		var query = _context.Products.AsQueryable();
+		if (!string.IsNullOrWhiteSpace(search))
+		{
+			query = query.Where(p => p.Name.Contains(search));
+		}
+		return await query.Select(p => new ProductResponseDto(
 			p.Id,
 			p.Name,
 			p.Description,
@@ -107,7 +112,7 @@ public class ProductService : IProductService
 	public async Task<bool> DeleteAsync(int id)
 	{
 		var product = await _context.Products.FirstOrDefaultAsync(p => p.Id == id);
-		if(product == null)return false;
+		if (product == null) return false;
 		_context.Products.Remove(product);
 		await _context.SaveChangesAsync();
 		return true;

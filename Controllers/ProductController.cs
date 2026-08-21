@@ -24,9 +24,9 @@ public class ProductController : ControllerBase
 	}
 
 	[HttpGet]
-	public async Task<ActionResult<List<ProductResponseDto>>> GetAll()
+	public async Task<ActionResult<List<ProductResponseDto>>> GetAll(string? search)
 	{
-		var products = await _productService.GetAllAsync();
+		var products = await _productService.GetAllAsync(search);
 		return Ok(products);
 	}
 
@@ -42,9 +42,9 @@ public class ProductController : ControllerBase
 	}
 
 	[HttpPatch("{id}")]
-	public async Task<ActionResult<ProductResponseDto>> Update(int id,UpdateProductDto dto)
+	public async Task<ActionResult<ProductResponseDto>> Update(int id, UpdateProductDto dto)
 	{
-		var product = await _productService.UpdateAsync(id,dto);
+		var product = await _productService.UpdateAsync(id, dto);
 		return Ok(product);
 	}
 
@@ -52,8 +52,8 @@ public class ProductController : ControllerBase
 	public async Task<IActionResult> Delete(int id)
 	{
 		var product = await _productService.DeleteAsync(id);
-		if(product == null) return NotFound();
-		
+		if (product == null) return NotFound();
+
 		return NoContent();
 	}
 }
